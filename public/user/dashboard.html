@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="https://www.pngplay.com/wp-content/uploads/1/Letter-X-PNG-Stock-Photo.png">
+  <link rel="stylesheet" href="/style/style.css">
+  <title>User Dashboard</title>
+</head>
+<body>
+  <nav class="NavBar">
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="#NewTicket" onclick="showSection('NewTicket')">New Ticket</a></li>
+      <li><a href="#HistoryLogs" onclick="showSection('HistoryLogs')">Community Page</a></li>
+    </ul>
+  </nav>
+
+  <!-- New Ticket Form -->
+  <div class="NewTicket">
+    <form class="ticket-form">
+      <h2>Create New Ticket</h2>
+
+      <label>
+        Issue Title
+        <input type="text" name="title" placeholder="Short summary of the issue" required />
+      </label>
+
+      <label>
+        Issue Type
+        <select name="type" required>
+          <option value="">Select type</option>
+          <option value="bug">Bug</option>
+          <option value="feature">Feature Request</option>
+          <option value="support">Support</option>
+          <option value="other">Other</option>
+        </select>
+      </label>
+
+      <label>
+        Description
+        <textarea name="description" placeholder="Describe the issue in detail" rows="4" required></textarea>
+      </label>
+
+      <label>
+        Contact Email
+        <input type="email" name="userEmail" placeholder="John@example.com" required />
+      </label>
+
+      <button type="submit">Submit Ticket</button>
+      <div id="thankMessage">Thanks! Your ticket has been submitted.</div>
+    </form>
+  </div>
+
+  <!-- Community Page -->
+  <div class="HistoryLogs">
+    <h2>Community Page</h2>
+    <table id="ticketsTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>User Email</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="ticketsBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    // Switch visible sections
+    function showSection(sectionId) {
+      const sections = ["NewTicket", "HistoryLogs"];
+      sections.forEach(id => {
+        const el = document.querySelector(`.${id}`);
+        el.style.display = (id === sectionId) ? "block" : "none";
+      });
+    }
+
+    // Load tickets into Community Page
+    async function loadTickets() {
+      try {
+        const res = await fetch("/api/tickets");
+        const tickets = await res.json();
+
+        const tbody = document.getElementById("ticketsBody");
+        tbody.innerHTML = "";
+
+        tickets.forEach(ticket => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${ticket.id}</td>
+            <td>${ticket.title}</td>
+            <td>${ticket.type}</td>
+            <td>${ticket.description}</td>
+            <td>${ticket.userEmail}</td>
+            <td>${ticket.status}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (err) {
+        console.error("Error loading tickets:", err);
+      }
+    }
+
+    // Handle ticket form submission
+    const ticketForm = document.querySelector(".ticket-form");
+    ticketForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(ticketForm);
+      const data = {};
+      formData.forEach((value, key) => data[key] = value);
+
+      try {
+        const res = await fetch("/api/tickets", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await res.json();
+        if(result && result.id) {
+          const thankEl = document.getElementById("thankMessage");
+          thankEl.style.display = "block";
+          setTimeout(() => thankEl.style.display = "none", 3000); // hide after 3s
+          ticketForm.reset();
+          showSection("HistoryLogs");
+          loadTickets();
+        } else {
+          alert("Failed to submit ticket. Please try again.");
+        }
+      } catch(err) {
+        console.error(err);
+        alert("Error submitting ticket.");
+      }
+    });
+
+    // Show NewTicket 
+    window.addEventListener("DOMContentLoaded", () => {
+      showSection("NewTicket");
+      loadTickets();
+    });
+  </script>
+</body>
+</html>

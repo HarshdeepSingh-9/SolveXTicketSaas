@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolveX | Agent Support</title>
+  <link rel="icon" type="image/png" href="https://www.pngplay.com/wp-content/uploads/1/Letter-X-PNG-Stock-Photo.png">
+  <link rel="stylesheet" href="/style/style.css">
+</head>
+<body>
+  <a id = "home" href="/">Home</a>
+ <h1 id = "welcomeLine">Welcome to SolveX Agents !</h1>
+<form action="" id="loginForm" method="POST">
+    <input type="text" name="username" id="username" placeholder="Username" required />
+    <input type="password" name="password" id="password" placeholder="Password" required />
+    <button id = "Submit" type="submit">Submit</button>
+
+</form>
+<p id="message"></p>
+<script>
+ // user.js - handles user login & signup for SolveX
+
+const form = document.getElementById('loginForm');
+const submitBtn = document.getElementById('Submit');
+const newUserBtn = document.getElementById('NewUser');
+const message = document.createElement('p');
+form.appendChild(message); // append message dynamically
+
+// -------------------
+// LOGIN FUNCTION
+// -------------------
+form.addEventListener('submit', async (e) => {
+  e.preventDefault(); // prevent default form submission
+
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username || !password) {
+    message.style.color = "red";
+    message.innerText = "Please enter username and password.";
+    return;
+  }
+
+  try {
+    const params = new URLSearchParams({ username, password, role: "agent" });
+    const res = await fetch(`/api/login?${params.toString()}`);
+    const data = await res.json();
+
+    if (data.success) {
+      message.style.color = "green";
+      message.innerText = "Login successful! Redirecting...";
+      localStorage.setItem("userId", data.userId);
+      setTimeout(() => window.location.href = "/agent/dashboard.html", 1000);
+    } else {
+      message.style.color = "red";
+      message.innerText = "Agent not found. Contact Admin";
+    }
+  } catch (err) {
+    console.error(err);
+    message.style.color = "red";
+    message.innerText = "Server error. Try again later.";
+  }
+});
+
+
+
+</script>
+</body>
+<footer class="Foot">ALl RIGHTS RESERVED @ HARSHDEEP.SINGH TMU</footer>
+</html>

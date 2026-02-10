@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SolveX | User Support</title>
+  <link rel="icon" type="image/png" href="https://www.pngplay.com/wp-content/uploads/1/Letter-X-PNG-Stock-Photo.png">
+  <link rel="stylesheet" href="/style/style.css">
+</head>
+<body>
+ <a id = "home" href="/">Home</a>
+ <h1 id = "welcomeLine">Welcome to SolveX Users !</h1>
+<form action="" id="loginForm" method="POST">
+    <input type="text" name="username" id="username" placeholder="Username" required />
+    <input type="password" name="password" id="password" placeholder="Password" required />
+    <button id = "Submit" type="submit">Submit</button>
+    <button id = "NewUser" type="submit">New User</button>
+
+</form>
+<p id="message"></p>
+<script>
+
+
+const form = document.getElementById('loginForm');
+const submitBtn = document.getElementById('Submit');
+const newUserBtn = document.getElementById('NewUser');
+const message = document.createElement('p');
+form.appendChild(message); // append message dynamically
+
+
+// LOGIN FUNCTION
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username || !password) {
+    message.style.color = "red";
+    message.innerText = "Please enter username and password.";
+    return;
+  }
+
+  try {
+    const params = new URLSearchParams({ username, password, role: "user" });
+    const res = await fetch(`/api/login?${params.toString()}`); //API Route
+    const data = await res.json();
+
+    if (data.success) {
+      message.style.color = "green";
+      message.innerText = "Login successful! Redirecting...";
+      localStorage.setItem("userId", data.userId);
+      setTimeout(() => window.location.href = "/user/dashboard.html", 1000);
+    } else {
+      message.style.color = "red";
+      message.innerText = "User not found. Click 'New User' to sign up!";
+    }
+  } catch (err) {
+    console.error(err);
+    message.style.color = "red";
+    message.innerText = "Server error. Try again later.";
+  }
+});
+
+
+// SIGN UP FUNCTION
+
+newUserBtn.addEventListener('click', async () => {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  if (!username || !password) {
+    message.style.color = "red";
+    message.innerText = "Enter username and password to sign up!";
+    return;
+  }
+
+  try {
+    const params = new URLSearchParams({ username, password });
+    const res = await fetch(`/api/signup?${params.toString()}`); //API route
+    const data = await res.json();
+
+    if (data.success) {
+      message.style.color = "green";
+      message.innerText = "Sign Up successful! You can now login.";
+    } else {
+      message.style.color = "red";
+      message.innerText = "Username already exists. Try another.";
+    }
+  } catch (err) {
+    console.error(err);
+    message.style.color = "red";
+    message.innerText = "Server error. Try again later.";
+  }
+});
+
+
+</script>
+</body>
+<footer class="Foot">ALl RIGHTS RESERVED @ HARSHDEEP.SINGH TMU</footer>
+</html>

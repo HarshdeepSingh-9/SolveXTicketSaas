@@ -1,0 +1,116 @@
+[
+  {
+    "id": 1770760625127,
+    "title": "File access problem",
+    "type": "support",
+    "description": "Cannot download files from the dashboard",
+    "userEmail": "carol@example.com",
+    "status": "Resolved",
+    "messages": [
+      {
+        "message": "try using different VPN",
+        "agent": "Agent",
+        "timestamp": "2026-02-10T22:44:17.860Z"
+      }
+    ]
+  },
+  {
+    "id": 1770760625128,
+    "title": "UI glitch",
+    "type": "bug",
+    "description": "Buttons overlap on mobile view",
+    "userEmail": "dave@example.com",
+    "status": "Open",
+    "messages": []
+  },
+  {
+    "id": 1770760625129,
+    "title": "Add export option",
+    "type": "feature",
+    "description": "Need an option to export reports as PDF",
+    "userEmail": "eve@example.com",
+    "status": "Open",
+    "messages": []
+  },
+  {
+    "id": 1770760625130,
+    "title": "Password reset not working",
+    "type": "support",
+    "description": "Reset link is not sending to email",
+    "userEmail": "frank@example.com",
+    "status": "Open",
+    "messages": []
+  },
+  {
+    "id": 1770760625131,
+    "title": "App crash",
+    "type": "bug",
+    "description": "App crashes when uploading large files",
+    "userEmail": "grace@example.com",
+    "status": "Resolved",
+    "messages": [
+      {
+        "message": "try compressing the zip file and try again",
+        "agent": "Agent",
+        "timestamp": "2026-02-10T22:56:10.512Z"
+      }
+    ]
+  },
+  {
+    "id": 1770760625132,
+    "title": "Request new dashboard",
+    "type": "feature",
+    "description": "Would like a customizable dashboard view",
+    "userEmail": "heidi@example.com",
+    "status": "Resolved",
+    "messages": [
+      {
+        "message": "try using figma",
+        "agent": "Agent",
+        "timestamp": "2026-02-10T22:36:58.842Z"
+      }
+    ]
+  },
+  {
+    "id": 1770760625133,
+    "title": "Cannot submit form",
+    "type": "support",
+    "description": "Form submission fails with error 500",
+    "userEmail": "ivan@example.com",
+    "status": "Resolved",
+    "messages": [
+      {
+        "message": "try installing latest software",
+        "agent": "Agent",
+        "timestamp": "2026-02-10T22:56:30.017Z"
+      }
+    ]
+  },
+  {
+    "id": 1770760625134,
+    "title": "Typo on homepage",
+    "type": "other",
+    "description": "Found a typo in the welcome section",
+    "userEmail": "judy@example.com",
+    "status": "Open",
+    "messages": []
+  },
+  {
+    "id": 1770764252659,
+    "title": "VPN crashed",
+    "type": "support",
+    "description": "Wrong IP address listed and cant initiate a network",
+    "userEmail": "Mark@gmail.com",
+    "status": "Open",
+    "messages": []
+  },
+  {
+    "id": 1770764421088,
+    "title": "Window Crashed",
+    "type": "support",
+    "description": "Need steps to reInstall the window package",
+    "userEmail": "Mary@gmail.com",
+    "status": "Open",
+    "messages": []
+  }
+]
